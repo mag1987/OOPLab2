@@ -7,6 +7,75 @@ using System.Threading.Tasks;
 namespace lab2
 
 {
+    public interface IRateable
+    {
+        double RateValue { get; set; }
+        int Votes { get; set; }
+        List<IRatingUser> Users { get; set; }
+    }
+    public interface IRatingUser
+    {
+        void UserRate(IRateable rateable, IRatingSystem system);
+        int UserKarma { get; set; }
+    }
+    public interface IRatingSystem
+    {
+        //double UserVoteWeight(Request request);
+        void CalculateRate(Request request);
+        Queue<Request> Requests { get; set; }
+    }
+    public class RatingUser : IRatingUser
+    {
+        public void UserRate(IRateable rateable, IRatingSystem system)
+        {
+            Request r = new Request();
+            r.UserKarma = UserKarma;
+            r.UserRate = GetUserRate();
+            r.Rateable = rateable;
+            system.Requests.Enqueue(r);
+        }
+        public int UserKarma { get; set; }
+        int GetUserRate()
+        {
+            return Convert.ToInt32(Console.ReadLine());
+        }
+    }
+    public class Request
+    {
+        public IRateable Rateable { get; set; }
+        public int UserKarma { get; set; }
+        public int UserRate { get; set; }
+    }
+    public class RatingSystem : IRatingSystem
+    {
+        public  Queue<Request> Requests { get; set; }
+        public int UserKarmaLimit { get; set; }
+        public  double UserVoteWeight(Request request)
+        {
+            if (request.UserKarma > UserKarmaLimit) return 1.0;
+            else
+            {
+                if (request.UserKarma > (request.Rateable.RateValue / request.UserRate))
+                {
+                    return (double)request.UserKarma / UserKarmaLimit;
+                }
+                else
+                    return request.Rateable.RateValue / request.UserRate;
+            }
+        }
+        public  void CalculateRate(Request request)
+        {
+            request.Rateable.RateValue = request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1) +
+            request.UserRate * UserVoteWeight(request) / (request.Rateable.Votes + 1);
+        }
+        public void CalculateAllRates(Queue<Request> queue)
+        {
+            while (queue.Count !=0)
+            { 
+                CalculateRate(queue.Dequeue());
+            }
+        }
+    }
     public interface IContainment
     {
          int RequiredSpace { get; set; }
