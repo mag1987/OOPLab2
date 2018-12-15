@@ -9,6 +9,7 @@ namespace lab2
 {
     public interface IRateable :IComparable<IRateable>
     {
+        string ClassName { get; set; }
         double RateValue { get; set; }
         int Votes { get; set; }
         List<IRatingUser> Users { get; set; }
@@ -18,6 +19,7 @@ namespace lab2
     {
         void UserRate(IRateable rateable, IRatingSystem system);
         int UserKarma { get; set; }
+        List<IRateable> Recommended { get; set; }
     }
     public interface IRatingSystem
     {
@@ -33,9 +35,21 @@ namespace lab2
             r.UserKarma = UserKarma;
             r.UserRate = GetUserRate();
             r.Rateable = rateable;
+            r.Recommended = Recommended;
             system.Requests.Enqueue(r);
         }
         public int UserKarma { get; set; }
+        public List<IRateable> Recommended { get; set; }
+        public void UpdateRecommended(RecommendingSystem rs, Top top)
+        {
+            Request r = new Request();
+            r.UserKarma = UserKarma;
+            r.UserRate = GetUserRate();
+            r.Recommended = Recommended;
+            rs.Requests.Enqueue(r);
+            rs.RecommendAll(top);
+            
+        }
         int GetUserRate()
         {
             return Convert.ToInt32(Console.ReadLine());
@@ -46,6 +60,32 @@ namespace lab2
         public IRateable Rateable { get; set; }
         public int UserKarma { get; set; }
         public int UserRate { get; set; }
+        public List<IRateable> Recommended { get; set; }
+    }
+    public class RecommendingSystem
+    {
+        public Queue<Request> Requests { get; set; }
+        public void Recommend(Request request, Top top)
+        {
+            foreach (var itemTop in top.Rateables)
+            {
+                foreach (var itemRecommended in request.Recommended)
+                {
+                    if (itemTop.ClassName == itemRecommended.ClassName && 
+                        itemTop.RateValue >= request.UserRate)
+                    {
+                        request.Recommended.Add(itemTop);
+                    }
+                }
+            }
+        }
+        public void RecommendAll(Top top)
+        {
+            while (Requests.Count != 0)
+            {
+                Recommend(Requests.Dequeue(),top);
+            }
+        }
     }
     public class RatingSystem : IRatingSystem
     {
