@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 namespace lab2
 
 {
-    public interface IRateable
+    public interface IRateable :IComparable<IRateable>
     {
         double RateValue { get; set; }
         int Votes { get; set; }
         List<IRatingUser> Users { get; set; }
+        
     }
     public interface IRatingUser
     {
@@ -63,16 +64,60 @@ namespace lab2
                     return request.Rateable.RateValue / request.UserRate;
             }
         }
+
         public  void CalculateRate(Request request)
         {
             request.Rateable.RateValue = request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1) +
             request.UserRate * UserVoteWeight(request) / (request.Rateable.Votes + 1);
         }
-        public void CalculateAllRates(Queue<Request> queue)
+        public void CalculateRate(Request request, Top top)
         {
-            while (queue.Count !=0)
+            CalculateRate(request);
+            SendInTop(top,request);
+            top.Refresh();
+        }
+        public void CalculateAllRates()
+        {
+            while (Requests.Count !=0)
             { 
-                CalculateRate(queue.Dequeue());
+                CalculateRate(Requests.Dequeue());
+            }
+        }
+        public void CalculateAllRates( Top top)
+        {
+            while (Requests.Count != 0)
+            {
+                CalculateRate(Requests.Dequeue(), top);
+            }
+        }
+        public void SendInTop(Top top, Request request)
+        {
+            if (top.MinRateable.RateValue < request.Rateable.RateValue)
+            {
+                top.MinRateable = request.Rateable;
+            }
+        }
+    }
+    public class Top 
+    {
+        public List<IRateable> Rateables { get; set; }
+        public int NumberOfTop { get; set; }
+        public IRateable MinRateable { get; set; }
+        public void Refresh()
+        {
+            if (Rateables.Count < NumberOfTop)
+            {
+                Rateables.Add(MinRateable);
+            }
+            else
+            {
+                IRateable temp = Rateables.Min<IRateable>();
+                if (MinRateable.RateValue > temp.RateValue)
+                {
+                    Rateables.Remove(temp);
+                    Rateables.Add(MinRateable);
+                    MinRateable = Rateables.Min<IRateable>();
+                }
             }
         }
     }
