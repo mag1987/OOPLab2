@@ -19,6 +19,7 @@ namespace lab2
     {
         void UserRate(IRateable rateable, IRatingSystem system);
         int UserKarma { get; set; }
+
         List<IRateable> Recommended { get; set; }
     }
     public interface IRatingSystem
