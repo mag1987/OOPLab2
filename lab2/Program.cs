@@ -28,19 +28,33 @@ namespace lab2
         void CalculateRate(Request request);
         Queue<Request> Requests { get; set; }
     }
-    public class RatingUser : IRatingUser
+    public delegate void RequestHandler(Request request);
+    public class RatingUser //: IRatingUser
     {
-        public void UserRate(IRateable rateable, IRatingSystem system)
+        public event RequestHandler RateRequest;
+        public event RecommendingHandler RecommendRequest;
+        public void UpdateUserFavourites(Request request)
         {
-            Request r = new Request();
-            r.UserKarma = UserKarma;
-            r.UserRate = GetUserRate();
-            r.Rateable = rateable;
-            r.Recommended = Recommended;
-            system.Requests.Enqueue(r);
+            if (request.UserRate >= request.Rateable.RateValue)
+                Likes.Add(request.Rateable);
+            else
+                Dislikes.Add(request.Rateable);
+        }
+        public void UserRate(IRateable rateable)
+        {
+            Request r = new Request
+            {
+                User = this,
+                UserRate = GetUserRate(),
+                Rateable = rateable
+            };
+            RateRequest.Invoke(r);
         }
         public int UserKarma { get; set; }
+        public List<IRateable> Likes { get; set; }
+        public List<IRateable> Dislikes { get; set; }
         public List<IRateable> Recommended { get; set; }
+        /*
         public void UpdateRecommended(RecommendingSystem rs, Top top)
         {
             Request r = new Request();
@@ -51,23 +65,47 @@ namespace lab2
             rs.RecommendAll(top);
             
         }
+        */
         int GetUserRate()
         {
             return Convert.ToInt32(Console.ReadLine());
+        }
+        public void Recommend(Top top)
+        {
+            Request r = new Request
+            {
+                User = this
+            };
+            RecommendRequest.Invoke(r,top);
         }
     }
     public class Request
     {
         public IRateable Rateable { get; set; }
-        public int UserKarma { get; set; }
+        public RatingUser User { get; set; }
         public int UserRate { get; set; }
-        public List<IRateable> Recommended { get; set; }
     }
+    public delegate void RecommendingHandler(Request request, Top top);
     public class RecommendingSystem
     {
-        public Queue<Request> Requests { get; set; }
         public void Recommend(Request request, Top top)
         {
+            int maxRecommend = 5;
+            int i = 0;
+            request.User.Recommended.Clear();
+            foreach (var item in top.Rateables)
+            {
+                if (i < maxRecommend && i < top.Rateables.Count)
+                {
+                    if (request.User.Dislikes.Contains(item) == false)
+                    {
+                        request.User.Recommended.Add(item);
+                    }
+                    i++;
+                }
+                else break;
+            }
+            /*
             foreach (var itemTop in top.Rateables)
             {
                 foreach (var itemRecommended in request.Recommended)
@@ -79,7 +117,9 @@ namespace lab2
                     }
                 }
             }
+            */
         }
+        /*
         public void RecommendAll(Top top)
         {
             while (Requests.Count != 0)
@@ -87,19 +127,25 @@ namespace lab2
                 Recommend(Requests.Dequeue(),top);
             }
         }
+        */
     }
-    public class RatingSystem : IRatingSystem
+    public class RatingSystem //: IRatingSystem
     {
-        public  Queue<Request> Requests { get; set; }
+        public event RequestHandler RateUpdated;
+        public void RequestHandler(Request request)
+        {
+            CalculateRate(request);
+            RateUpdated.Invoke(request);
+        }
         public int UserKarmaLimit { get; set; }
         public  double UserVoteWeight(Request request)
         {
-            if (request.UserKarma > UserKarmaLimit) return 1.0;
+            if (request.User.UserKarma > UserKarmaLimit) return 1.0;
             else
             {
-                if (request.UserKarma > (request.Rateable.RateValue / request.UserRate))
+                if (request.User.UserKarma > (request.Rateable.RateValue / request.UserRate))
                 {
-                    return (double)request.UserKarma / UserKarmaLimit;
+                    return (double)request.User.UserKarma / UserKarmaLimit;
                 }
                 else
                     return request.Rateable.RateValue / request.UserRate;
@@ -111,6 +157,7 @@ namespace lab2
             request.Rateable.RateValue = request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1) +
             request.UserRate * UserVoteWeight(request) / (request.Rateable.Votes + 1);
         }
+        /*
         public void CalculateRate(Request request, Top top)
         {
             CalculateRate(request);
@@ -138,12 +185,41 @@ namespace lab2
                 top.MinRateable = request.Rateable;
             }
         }
+        */
     }
     public class Top 
     {
+        public void RequestHandler(Request request)
+        {
+            if (Rateables.Count < NumberOfTop)
+            {
+                Rateables.Add(request.Rateable);
+                Rateables.Sort(SortByRate);
+            }
+            else
+            {
+                if (request.Rateable.RateValue > MinRateable.RateValue)
+                {
+                    Rateables.Remove(Rateables.Last<IRateable>());
+                    Rateables.Add(request.Rateable);
+                    Rateables.Sort(SortByRate);
+                    MinRateable.RateValue = Rateables.Last<IRateable>().RateValue;
+                }
+            }
+        }
+        public int SortByRate(IRateable a, IRateable b)
+        {
+            if (a.RateValue > b.RateValue) { return 1; }
+            else
+            {
+                if (a.RateValue == b.RateValue) { return 0; }
+                else { return -1; }
+            }
+        }
         public List<IRateable> Rateables { get; set; }
         public int NumberOfTop { get; set; }
         public IRateable MinRateable { get; set; }
+        /*
         public void Refresh()
         {
             if (Rateables.Count < NumberOfTop)
@@ -161,6 +237,7 @@ namespace lab2
                 }
             }
         }
+        */
     }
     public interface IContainment
     {
