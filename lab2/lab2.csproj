@@ -43,11 +43,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animal.cs" />
+    <Compile Include="Aviary.cs" />
+    <Compile Include="AviaryClasses\Aquarium.cs" />
+    <Compile Include="AviaryClasses\BirdCage.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="Interfaces\IContainer.cs" />
+    <Compile Include="Interfaces\IContainment.cs" />
+    <Compile Include="Interfaces\IGeneratorID.cs" />
+    <Compile Include="Interfaces\IProfession.cs" />
+    <Compile Include="Interfaces\IRateable.cs" />
+    <Compile Include="Interfaces\IRatingSystem.cs" />
+    <Compile Include="Interfaces\IRatingUser.cs" />
+    <Compile Include="Interfaces\IStaff.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AviaryClasses\Serpentarium.cs" />
+    <Compile Include="Rating\RatingSystem.cs" />
+    <Compile Include="Rating\RatingUser.cs" />
+    <Compile Include="Rating\RecommendingSystem.cs" />
+    <Compile Include="Rating\Request.cs" />
+    <Compile Include="Rating\Top.cs" />
+    <Compile Include="Zoo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
