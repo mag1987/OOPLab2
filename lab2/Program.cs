@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace lab2
-
 {
     public interface IRateable :IComparable<IRateable>
     {
@@ -13,7 +12,6 @@ namespace lab2
         double RateValue { get; set; }
         int Votes { get; set; }
         List<IRatingUser> Users { get; set; }
-        
     }
     public interface IRatingUser
     {
@@ -24,7 +22,6 @@ namespace lab2
     }
     public interface IRatingSystem
     {
-        //double UserVoteWeight(Request request);
         void CalculateRate(Request request);
         Queue<Request> Requests { get; set; }
     }
@@ -54,18 +51,6 @@ namespace lab2
         public List<IRateable> Likes { get; set; }
         public List<IRateable> Dislikes { get; set; }
         public List<IRateable> Recommended { get; set; }
-        /*
-        public void UpdateRecommended(RecommendingSystem rs, Top top)
-        {
-            Request r = new Request();
-            r.UserKarma = UserKarma;
-            r.UserRate = GetUserRate();
-            r.Recommended = Recommended;
-            rs.Requests.Enqueue(r);
-            rs.RecommendAll(top);
-            
-        }
-        */
         int GetUserRate()
         {
             return Convert.ToInt32(Console.ReadLine());
@@ -105,29 +90,7 @@ namespace lab2
                 }
                 else break;
             }
-            /*
-            foreach (var itemTop in top.Rateables)
-            {
-                foreach (var itemRecommended in request.Recommended)
-                {
-                    if (itemTop.ClassName == itemRecommended.ClassName && 
-                        itemTop.RateValue >= request.UserRate)
-                    {
-                        request.Recommended.Add(itemTop);
-                    }
-                }
-            }
-            */
         }
-        /*
-        public void RecommendAll(Top top)
-        {
-            while (Requests.Count != 0)
-            {
-                Recommend(Requests.Dequeue(),top);
-            }
-        }
-        */
     }
     public class RatingSystem //: IRatingSystem
     {
@@ -151,41 +114,11 @@ namespace lab2
                     return request.Rateable.RateValue / request.UserRate;
             }
         }
-
         public  void CalculateRate(Request request)
         {
             request.Rateable.RateValue = request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1) +
             request.UserRate * UserVoteWeight(request) / (request.Rateable.Votes + 1);
         }
-        /*
-        public void CalculateRate(Request request, Top top)
-        {
-            CalculateRate(request);
-            SendInTop(top,request);
-            top.Refresh();
-        }
-        public void CalculateAllRates()
-        {
-            while (Requests.Count !=0)
-            { 
-                CalculateRate(Requests.Dequeue());
-            }
-        }
-        public void CalculateAllRates( Top top)
-        {
-            while (Requests.Count != 0)
-            {
-                CalculateRate(Requests.Dequeue(), top);
-            }
-        }
-        public void SendInTop(Top top, Request request)
-        {
-            if (top.MinRateable.RateValue < request.Rateable.RateValue)
-            {
-                top.MinRateable = request.Rateable;
-            }
-        }
-        */
     }
     public class Top 
     {
@@ -219,25 +152,6 @@ namespace lab2
         public List<IRateable> Rateables { get; set; }
         public int NumberOfTop { get; set; }
         public IRateable MinRateable { get; set; }
-        /*
-        public void Refresh()
-        {
-            if (Rateables.Count < NumberOfTop)
-            {
-                Rateables.Add(MinRateable);
-            }
-            else
-            {
-                IRateable temp = Rateables.Min<IRateable>();
-                if (MinRateable.RateValue > temp.RateValue)
-                {
-                    Rateables.Remove(temp);
-                    Rateables.Add(MinRateable);
-                    MinRateable = Rateables.Min<IRateable>();
-                }
-            }
-        }
-        */
     }
     public interface IContainment
     {
@@ -283,7 +197,6 @@ namespace lab2
             ProfessionName = professionName;
             BaseSalary = 0;
         }
-
     }
     public class Container : IContainer<IContainment>
     {
@@ -348,6 +261,16 @@ namespace lab2
     {
         static void Main(string[] args)
         {
+            var user = new RatingUser();
+            var rateSystem = new RatingSystem();
+            var recommendingSystem = new RecommendingSystem();
+            var top = new Top();
+
+            user.RateRequest += rateSystem.RequestHandler;
+            user.RecommendRequest += recommendingSystem.Recommend;
+            rateSystem.RateUpdated += user.UpdateUserFavourites;
+            rateSystem.RateUpdated += top.RequestHandler;
+
             Zoo z = new Zoo();
             Aquarium aviary = new Aquarium();
             Animal animal = new Animal();
