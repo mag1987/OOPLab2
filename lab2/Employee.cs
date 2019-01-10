@@ -2,7 +2,7 @@
 
 namespace lab2
 {
-    public class Employee : IStaff
+    public class Employee : IStaff , IProfession
     {
         public int WorkerID { get; }
         public int TermOfEmployment { get; set; }
@@ -13,7 +13,6 @@ namespace lab2
         {
             return BaseSalary * TermOfEmployment * AviaryResponsibilities.Count;
         }
-       
         Employee(int workerID): this (workerID, "none")
         {
         }
