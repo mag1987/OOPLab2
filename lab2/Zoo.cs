@@ -4,9 +4,10 @@ namespace lab2
 {
     public class Zoo : Container
     {
-        List<Employee> Staff { get; set; }
-        List<Aviary> Aviaries { get; set; }
+        public List<Employee> Staff = new List<Employee>();
+        public List<Aviary> Aviaries = new List<Aviary>();
 
+        
         public Zoo()
         {
             

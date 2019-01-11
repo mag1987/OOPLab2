@@ -4,7 +4,7 @@ namespace lab2
 {
     public class Employee : IStaff , IProfession
     {
-        public int WorkerID { get; }
+        public int WorkerID { get; set; }
         public int TermOfEmployment { get; set; }
         public string ProfessionName { get; set; }
         public double BaseSalary { get; set; }
@@ -13,10 +13,10 @@ namespace lab2
         {
             return BaseSalary * TermOfEmployment * AviaryResponsibilities.Count;
         }
-        Employee(int workerID): this (workerID, "none")
+        public Employee(int workerID): this ( workerID, "none")
         {
         }
-        Employee(int workerID, string professionName)
+        public Employee(int workerID, string professionName)
         {
             WorkerID = workerID;
             ProfessionName = professionName;

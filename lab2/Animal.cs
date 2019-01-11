@@ -5,11 +5,11 @@ namespace lab2
 {
     public class Animal:IContainment,IRateable
     {
-       public int RequiredSpace { get; set; }
-        string IRateable.ClassName { get ; set ; }
-        double IRateable.RateValue { get ; set; }
-        int IRateable.Votes { get ; set ; }
-        List<IRatingUser> IRateable.Users { get; set ; }
+        public int RequiredSpace { get; set; }
+        public string ClassName { get; set; }
+        public double RateValue { get; set; }
+        public int Votes { get; set; }
+        List<IRatingUser> IRateable.Users { get; set; }
 
         public List<string> Meals = new List<string>();
 

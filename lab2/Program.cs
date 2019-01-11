@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,13 +23,26 @@ namespace lab2
             rateSystem.RateUpdated += top.RequestHandler;
 
             Zoo z = new Zoo();
-            Aquarium aviary = new Aquarium();
+            Aquarium aquarium = new Aquarium();
             Animal animal = new Animal();
-            z.Add(aviary);
-            aviary.Add(animal);
+            Employee employee = new Employee(4); 
+            z.Add(aquarium);
+            aquarium.Add(animal);
             z.Add(animal);
+            z.Staff.Add(employee);
+            //Console.WriteLine(employee.ProfessionName);
+            Console.WriteLine("Количество вольеров {0}",z.Content.Count);
+            Console.WriteLine("Количество сотрудников {0}", z.Staff.Count);
+            Console.WriteLine(aquarium.RateValue);
+
+            Console.WriteLine(animal.RateValue);
+            //Console.WriteLine("Рейтинг employee равен {0}", z.Aviaries.Find().RateValue);
             //aviary.Add(z);
-            
+            user.UserRate(aquarium);
+            Console.WriteLine(aquarium.RateValue);
+
+            Console.WriteLine(animal.RateValue);
+
         }
     }
 }
