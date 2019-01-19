@@ -22,7 +22,28 @@ namespace lab2
                 UserRate = GetUserRate(),
                 Rateable = rateable
             };
-            RateRequest.Invoke(r);
+            RateRequest?.Invoke(r);
+        }
+        public void UserRate(IRateable rateable, int rate)
+        {
+            Request r = new Request
+            {
+                User = this,
+                UserRate = rate,
+                Rateable = rateable
+            };
+            RateRequest?.Invoke(r);
+        }
+        public Request UserRateRequest(IRateable rateable, int rate)
+        {
+            Request r = new Request
+            {
+                User = this,
+                UserRate = rate,
+                Rateable = rateable
+            };
+            RateRequest?.Invoke(r);
+            return r;
         }
         public int UserKarma { get; set; }
         public List<IRateable> Likes { get; set; }
