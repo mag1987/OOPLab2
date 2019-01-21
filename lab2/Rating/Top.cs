@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace lab2
 {
-    public class Top 
+    public class Top //: IComparable<IRateable>
     {
         public void RequestHandler(Request request)
         {
             if (Rateables.Count < NumberOfTop)
             {
                 Rateables.Add(request.Rateable);
-                Rateables.Sort(SortByRate);
+                Rateables.Sort();
             }
             else
             {
@@ -18,12 +19,12 @@ namespace lab2
                 {
                     Rateables.Remove(Rateables.Last<IRateable>());
                     Rateables.Add(request.Rateable);
-                    Rateables.Sort(SortByRate);
+                    Rateables.Sort();
                     MinRateable.RateValue = Rateables.Last<IRateable>().RateValue;
                 }
             }
         }
-        public int SortByRate(IRateable a, IRateable b)
+        public int SortByRateLowestFirst(IRateable a, IRateable b)
         {
             if (a.RateValue > b.RateValue) { return 1; }
             else
@@ -32,7 +33,8 @@ namespace lab2
                 else { return -1; }
             }
         }
-        public List<IRateable> Rateables { get; set; }
+
+        public List<IRateable> Rateables = new List<IRateable>();
         public int NumberOfTop { get; set; }
         public IRateable MinRateable { get; set; }
     }

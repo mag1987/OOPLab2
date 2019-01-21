@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace UnitTests
 {
     [TestClass]
-    public class Rateable : IRateable
+    public class Rateable : IRateable, IComparable<IRateable>
     {
         public string ClassName { get ; set ; }
         public double RateValue { get ; set ; }
@@ -15,11 +15,11 @@ namespace UnitTests
 
         int IComparable<IRateable>.CompareTo(IRateable other)
         {
-            if (RateValue > other.RateValue) { return 1; }
+            if (RateValue > other.RateValue) { return -1; }
             else
             {
                 if (RateValue == other.RateValue) { return 0; }
-                else { return -1; }
+                else { return 1; }
             }
         }
     }

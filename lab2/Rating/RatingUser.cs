@@ -46,9 +46,9 @@ namespace lab2
             return r;
         }
         public int UserKarma { get; set; }
-        public List<IRateable> Likes { get; set; }
-        public List<IRateable> Dislikes { get; set; }
-        public List<IRateable> Recommended { get; set; }
+        public List<IRateable> Likes = new List<IRateable>();
+        public List<IRateable> Dislikes = new List<IRateable>();
+        public List<IRateable> Recommended = new List<IRateable>();
         int GetUserRate()
         {
             return Convert.ToInt32(Console.ReadLine());

@@ -13,11 +13,11 @@ namespace lab2
 
         public int CompareTo(IRateable other)
         {
-            if (RateValue > other.RateValue) { return 1; }
+            if (RateValue > other.RateValue) { return -1; }
             else
             {
                 if (RateValue == other.RateValue) { return 0; }
-                else { return -1; }
+                else { return 1; }
             }
         }
         public virtual int HeatPumpPower()

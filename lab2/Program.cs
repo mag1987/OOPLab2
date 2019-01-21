@@ -31,6 +31,23 @@ namespace lab2
             z.Add(animal);
             z.Staff.Add(employee);
             //Console.WriteLine(employee.ProfessionName);
+
+           
+            var r1 = new Aquarium
+            {
+                RateValue = 4
+            };
+            var r2 = new Aquarium
+            {
+                RateValue = 5
+            };
+            top.Rateables.Add(r1);
+            top.Rateables.Add(r2); // list 4, 5
+            top.Rateables.Sort(); // 5, 4
+            var array = top.Rateables.ToArray();
+            Console.WriteLine(array[0].RateValue);
+            Console.WriteLine(array[1].RateValue);
+            /*
             Console.WriteLine("Количество вольеров {0}",z.Content.Count);
             Console.WriteLine("Количество сотрудников {0}", z.Staff.Count);
             Console.WriteLine(aquarium.RateValue);
@@ -42,6 +59,7 @@ namespace lab2
             Console.WriteLine(aquarium.RateValue);
 
             Console.WriteLine(animal.RateValue);
+            */
 
         }
     }

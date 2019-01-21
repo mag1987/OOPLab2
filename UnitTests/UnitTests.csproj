@@ -51,9 +51,14 @@
   <ItemGroup>
     <Compile Include="Rateable.cs" />
     <Compile Include="RateableCreate.cs" />
+    <Compile Include="RatingSystemCreate.cs" />
+    <Compile Include="RatingSystemInvokeUpdateRate.cs" />
+    <Compile Include="RatingUserAddDislikes.cs" />
+    <Compile Include="RatingUserAddLikes.cs" />
     <Compile Include="RatingUserCreate.cs" />
     <Compile Include="RatingUserMakeRequest.cs" />
     <Compile Include="RatingUserSendRequest.cs" />
+    <Compile Include="RatingUserUpdatesFavorites.cs" />
     <Compile Include="RequestClassCreate.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
