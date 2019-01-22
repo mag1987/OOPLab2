@@ -9,6 +9,7 @@
             RateUpdated.Invoke(request);
         }
         public int UserKarmaLimit { get; set; }
+        public bool UserKarmaEnabled { get; set; }
         public  double UserVoteWeight(Request request)
         {
             if (request.User.UserKarma > UserKarmaLimit) return 1.0;
@@ -24,8 +25,19 @@
         }
         public  void CalculateRate(Request request)
         {
-            request.Rateable.RateValue = request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1) +
-            request.UserRate * UserVoteWeight(request) / (request.Rateable.Votes + 1);
+            double correction;
+            if (UserKarmaEnabled)
+                correction = UserVoteWeight(request);
+            else correction = 1;
+            request.Rateable.RateValue =
+                  request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1)
+                  + request.UserRate / (request.Rateable.Votes + 1) * correction;
+            request.Rateable.Votes++;
+        }
+        public RatingSystem()
+        {
+            UserKarmaEnabled = false;
+            UserKarmaLimit = 10;
         }
     }
 }

@@ -51,16 +51,22 @@
   <ItemGroup>
     <Compile Include="Rateable.cs" />
     <Compile Include="RateableCreate.cs" />
-    <Compile Include="RatingSystemCreate.cs" />
-    <Compile Include="RatingSystemInvokeUpdateRate.cs" />
-    <Compile Include="RatingUserAddDislikes.cs" />
-    <Compile Include="RatingUserAddLikes.cs" />
-    <Compile Include="RatingUserCreate.cs" />
-    <Compile Include="RatingUserMakeRequest.cs" />
-    <Compile Include="RatingUserSendRequest.cs" />
-    <Compile Include="RatingUserUpdatesFavorites.cs" />
+    <Compile Include="RatingSystem\RatingSystemCalculateRate.cs" />
+    <Compile Include="RatingSystem\RatingSystemCreate.cs" />
+    <Compile Include="RatingSystem\RatingSystemInvokeUpdateRate.cs" />
+    <Compile Include="RatingUser\RatingUserEventRecommend.cs" />
+    <Compile Include="RatingUser\RatingUserAddDislikes.cs" />
+    <Compile Include="RatingUser\RatingUserAddLikes.cs" />
+    <Compile Include="RatingUser\RatingUserCreate.cs" />
+    <Compile Include="RatingUser\RatingUserMakeRequest.cs" />
+    <Compile Include="RatingUser\RatingUserSendRequest.cs" />
+    <Compile Include="RatingUser\RatingUserUpdatesFavorites.cs" />
+    <Compile Include="RecommendingSystem\RecommendingSystemUpdateUserFavourites.cs" />
     <Compile Include="RequestClassCreate.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Top\TopAddItem.cs" />
+    <Compile Include="Top\TopIsSorted.cs" />
+    <Compile Include="Top\TopMinRateableAccess.cs" />
+    <Compile Include="Top\TopSelectMinRateable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +78,7 @@
       <Name>lab2</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

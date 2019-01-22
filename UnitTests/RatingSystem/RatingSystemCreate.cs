@@ -10,7 +10,7 @@ namespace UnitTests
         public void CreateDefault()
         {
             var rs = new RatingSystem();
-            Assert.AreEqual(rs.UserKarmaLimit, 0);
+            Assert.AreEqual(rs.UserKarmaLimit, 10);
         }
     }
 }

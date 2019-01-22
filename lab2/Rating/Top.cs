@@ -4,23 +4,27 @@ using System.Linq;
 
 namespace lab2
 {
-    public class Top //: IComparable<IRateable>
+    public class Top
     {
+        public List<IRateable> Rateables = new List<IRateable>();
+        public int NumberOfTop { get; set; }
+        public IRateable MinRateable { get; set; }
         public void RequestHandler(Request request)
         {
             if (Rateables.Count < NumberOfTop)
             {
                 Rateables.Add(request.Rateable);
                 Rateables.Sort();
+                MinRateable = Rateables.Last();
             }
             else
             {
                 if (request.Rateable.RateValue > MinRateable.RateValue)
                 {
-                    Rateables.Remove(Rateables.Last<IRateable>());
+                    Rateables.Remove(Rateables.Last());
                     Rateables.Add(request.Rateable);
                     Rateables.Sort();
-                    MinRateable.RateValue = Rateables.Last<IRateable>().RateValue;
+                    MinRateable = Rateables.Last();
                 }
             }
         }
@@ -33,9 +37,5 @@ namespace lab2
                 else { return -1; }
             }
         }
-
-        public List<IRateable> Rateables = new List<IRateable>();
-        public int NumberOfTop { get; set; }
-        public IRateable MinRateable { get; set; }
     }
 }
