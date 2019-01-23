@@ -15,7 +15,12 @@ namespace lab2
 
         int IComparable<IRateable>.CompareTo(IRateable other)
         {
-            throw new NotImplementedException();
+            if (RateValue > other.RateValue) { return -1; }
+            else
+            {
+                if (RateValue == other.RateValue) { return 0; }
+                else { return 1; }
+            }
         }
     }
 }

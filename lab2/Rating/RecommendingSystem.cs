@@ -9,7 +9,7 @@
             request.User.Recommended.Clear();
             foreach (var item in top.Rateables)
             {
-                if (i < maxRecommend && i < top.Rateables.Count)
+                if (i <= maxRecommend && i <= top.Rateables.Count)
                 {
                     if (request.User.Dislikes.Contains(item) == false)
                     {

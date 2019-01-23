@@ -4,6 +4,7 @@ namespace lab2
 {
     public abstract class Aviary : Container, IContainment, IRateable
     {
+        public string Name { get; set; }
         public int RequiredSpace { get; set; }
         public int Temperature { get; set; }
         public string ClassName { get ; set ; }

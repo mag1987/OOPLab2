@@ -5,14 +5,19 @@ namespace lab2
 {
     public class RatingUser //: IRatingUser
     {
+        public string Name { get; set; }
+        public int UserKarma { get; set; }
+        public HashSet<IRateable> Likes = new HashSet<IRateable>();
+        public HashSet<IRateable> Dislikes = new HashSet<IRateable>();
+        public HashSet<IRateable> Recommended = new HashSet<IRateable>();
         public event RequestHandler RateRequest;
         public event RecommendingHandler RecommendRequest;
         public void UpdateUserFavourites(Request request)
         {
             if (request.UserRate >= request.Rateable.RateValue)
-                Likes.Add(request.Rateable);
+                request.User.Likes.Add(request.Rateable);
             else
-                Dislikes.Add(request.Rateable);
+                request.User.Dislikes.Add(request.Rateable);
         }
         public void UserRate(IRateable rateable)
         {
@@ -24,7 +29,7 @@ namespace lab2
             };
             RateRequest?.Invoke(r);
         }
-        public void UserRate(IRateable rateable, int rate)
+        public void UserRate( IRateable rateable, int rate)
         {
             Request r = new Request
             {
@@ -34,7 +39,7 @@ namespace lab2
             };
             RateRequest?.Invoke(r);
         }
-        public Request UserRateRequest(IRateable rateable, int rate)
+        public Request UserRateRequest( IRateable rateable, int rate)
         {
             Request r = new Request
             {
@@ -42,13 +47,10 @@ namespace lab2
                 UserRate = rate,
                 Rateable = rateable
             };
+            //ref Request rr = ref r;
             RateRequest?.Invoke(r);
-            return r;
+            return  r;
         }
-        public int UserKarma { get; set; }
-        public List<IRateable> Likes = new List<IRateable>();
-        public List<IRateable> Dislikes = new List<IRateable>();
-        public List<IRateable> Recommended = new List<IRateable>();
         int GetUserRate()
         {
             return Convert.ToInt32(Console.ReadLine());

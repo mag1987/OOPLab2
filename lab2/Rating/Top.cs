@@ -37,5 +37,9 @@ namespace lab2
                 else { return -1; }
             }
         }
+        public Top()
+        {
+            NumberOfTop = 5;
+        }
     }
 }

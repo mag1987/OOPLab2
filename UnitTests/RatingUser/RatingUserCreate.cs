@@ -11,9 +11,9 @@ namespace UnitTests
         public void CreateDefault()
         {
             var ru = new RatingUser();
-            Assert.IsInstanceOfType(ru.Likes, typeof(List<IRateable>));
-            Assert.IsInstanceOfType(ru.Dislikes, typeof(List<IRateable>));
-            Assert.IsInstanceOfType(ru.Recommended, typeof(List<IRateable>));
+            Assert.IsInstanceOfType(ru.Likes, typeof(HashSet<IRateable>));
+            Assert.IsInstanceOfType(ru.Dislikes, typeof(HashSet<IRateable>));
+            Assert.IsInstanceOfType(ru.Recommended, typeof(HashSet<IRateable>));
         }
     }
 }

@@ -29,9 +29,7 @@
             if (UserKarmaEnabled)
                 correction = UserVoteWeight(request);
             else correction = 1;
-            request.Rateable.RateValue =
-                  request.Rateable.RateValue * request.Rateable.Votes / (request.Rateable.Votes + 1)
-                  + request.UserRate / (request.Rateable.Votes + 1) * correction;
+            request.Rateable.RateValue = (request.Rateable.RateValue * request.Rateable.Votes + request.UserRate) / (request.Rateable.Votes + 1);
             request.Rateable.Votes++;
         }
         public RatingSystem()
