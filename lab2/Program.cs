@@ -82,32 +82,15 @@ namespace lab2
             {
                 user.Recommend(top); 
             }
+            
             for (int i = 0; i<3; i++)
             {
-                Console.WriteLine($"Пользователю {users[i].Name} рекомндуется ");
-
-                //PrintArray(users[i].Likes);
+                Console.Write($"Пользователю {users[i].Name} рекомндуется ");
+                PrintArray(users[i].Recommended);
+                Console.WriteLine("");
             }
             
-            PrintArray(users[0].Likes);
-            Console.WriteLine("");
-            PrintArray(users[1].Likes);
-            Console.WriteLine("");
-            PrintArray(users[2].Likes);
-            Console.WriteLine("");
-            PrintArray(users[0].Dislikes);
-            Console.WriteLine("");
-            PrintArray(users[1].Dislikes);
-            Console.WriteLine("");
-            PrintArray(users[2].Dislikes);
-            Console.WriteLine("");
 
-            PrintArray(users[0].Recommended);
-            Console.WriteLine("");
-            PrintArray(users[1].Recommended);
-            Console.WriteLine("");
-            PrintArray(users[2].Recommended);
-            Console.WriteLine("");
             /*
             Zoo z = new Zoo();
             Aquarium aquarium = new Aquarium();
@@ -132,8 +115,8 @@ namespace lab2
             top.Rateables.Add(r2); // list 4, 5
             top.Rateables.Sort(); // 5, 4
             var array = top.Rateables.ToArray();
-            Console.WriteLine(array[0].RateValue);
-            Console.WriteLine(array[1].RateValue);
+            //Console.WriteLine(array[0].RateValue);
+            //Console.WriteLine(array[1].RateValue);
             /*
             Console.WriteLine("Количество вольеров {0}",z.Content.Count);
             Console.WriteLine("Количество сотрудников {0}", z.Staff.Count);
@@ -151,7 +134,7 @@ namespace lab2
             {
                 foreach (var i in ar)
                 {
-                    Console.Write(i.ClassName);
+                    Console.Write($"{i.ClassName} ");
                 }
 
             }

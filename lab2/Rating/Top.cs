@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace lab2
 {
@@ -11,7 +12,7 @@ namespace lab2
         public IRateable MinRateable { get; set; }
         public void RequestHandler(Request request)
         {
-            if (Rateables.Count < NumberOfTop)
+            if (Rateables.Count < NumberOfTop && Rateables.Contains(request.Rateable) == false)
             {
                 Rateables.Add(request.Rateable);
                 Rateables.Sort();
@@ -19,7 +20,7 @@ namespace lab2
             }
             else
             {
-                if (request.Rateable.RateValue > MinRateable.RateValue)
+                if (request.Rateable.RateValue > MinRateable.RateValue && Rateables.Contains(request.Rateable) == false)
                 {
                     Rateables.Remove(Rateables.Last());
                     Rateables.Add(request.Rateable);
@@ -40,6 +41,15 @@ namespace lab2
         public Top()
         {
             NumberOfTop = 5;
+        }
+        public string  RateablesToString()
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (var animal in Rateables)
+            {
+                s.Append($"{animal.ClassName} ");
+            }
+            return s.ToString();
         }
     }
 }

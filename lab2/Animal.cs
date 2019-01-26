@@ -22,5 +22,9 @@ namespace lab2
                 else { return 1; }
             }
         }
+        public override string ToString()
+        {
+            return ClassName;
+        }
     }
 }
